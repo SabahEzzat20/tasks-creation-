@@ -26,9 +26,9 @@ body{
     background-color: rgb(241, 64, 64);
     width: 25%;
     border-radius: 5px;
-    /* height: 30px; */
     font-size: 13px;
     color: white;
+    cursor: pointer;
 }
 .tasks{
     margin: 20px auto;
@@ -37,6 +37,7 @@ body{
     width: 350px;
     min-height: 50px;
     padding: 10px;
+    /* display: none; */
 }
 .task{
     border-radius: 5px;

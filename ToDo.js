@@ -65,7 +65,9 @@ const deleteTask = (Tid) => {
     storeTasks(tasks);
     showTasks();
 }
-
+addTaskBtn.addEventListener('keydown', function () {
+    
+})
 addTaskBtn.addEventListener('click', function (e) {
     if (inputTask.value.length > 0) {
         processtask({ id: Math.random(), title: inputTask.value });
@@ -84,7 +86,7 @@ const showTasks = () => {
         for (let i = 0; i < tasks.length; i++){
             createNewTask(tasks[i]);
         }
-    }
+    } 
 }
 // let y = tasksList.getElementsByClassName('delete')
 // console.log(y.length);
