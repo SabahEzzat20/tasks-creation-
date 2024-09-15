@@ -192,9 +192,7 @@ const showMessage = (msg) => {
     message.appendChild(messageContent);
     messageContent.appendChild(document.createTextNode(msg));
     document.body.appendChild(message);
-    setTimeout(() => {
-        document.body.removeChild(message);
-    }, 4000);
+    
     setTimeout(() => {
         message.classList.add('active');
     }, 10);  
