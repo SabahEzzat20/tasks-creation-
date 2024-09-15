@@ -39,8 +39,8 @@ inputTask.addEventListener('input', () => {
 });
 
 document.addEventListener('DOMContentLoaded', ()=> {
-    const savedtask = sessionStorage.getItem('Task.input');
-    if (savedtask) {
+    const savedTask = sessionStorage.getItem('Task.input');
+    if (savedTask) {
         inputTask.value = sessionStorage.getItem('Task.input')
     }
 })
@@ -68,7 +68,6 @@ const createNewTask = (T) => {
     editBtn.className = 'editBtn';
     taskContent.setAttribute('type', 'text');
     taskContent.setAttribute('readonly','readonly')
-    // deleteBtn.appendChild(document.createTextNode('delete'));
     taskName.appendChild(radioBtn);
     taskName.appendChild(taskContent);
     taskContent.value = T.title;
@@ -80,12 +79,14 @@ const createNewTask = (T) => {
     saveIcon.className = 'fa-solid fa-check';
     deleteIcon.className = 'fa-solid fa-trash-can';
     editBtn.appendChild(editIcon);
+    editBtn.appendChild(saveIcon);
     deleteBtn.appendChild(deleteIcon);
     task.appendChild(taskName);
     actions.appendChild(editBtn);
     actions.appendChild(deleteBtn);
     task.appendChild(actions)
     tasksList.appendChild(task);
+
     if (T.completed) {
         taskContent.style.textDecoration = 'line-through';
         radioBtn.checked = true;
@@ -96,24 +97,28 @@ const createNewTask = (T) => {
     deleteBtn.addEventListener('click', () => {
         deleteTask(T.id);
     });
-    editBtn.addEventListener('click', () => {        
-        console.log(editIcon.className === 'fa-regular fa-pen-to-square');
-        
-        if (editIcon.className === 'fa-regular fa-pen-to-square') {
-            // editIcon.className = 'fa-solid fa-check';
-            taskContent.removeAttribute('readonly');
-            editBtn.innerHTML = 'save'
-            taskContent.focus();
-        } else {
-            // editIcon.className = 'fa-regular fa-pen-to-square';
-            editBtn.innerHTML = 'edit'
-            taskContent.setAttribute('readonly', 'readonly');
-            
-            // Save the updated task content
-            T.title = taskContent.value;  // Update the task's title
-            updateTask(T);  // Save the updated task to local storage
-        }
-    });
+    saveIcon.style.display = 'none';
+    editBtn.addEventListener('click', ((T, editIcon, saveIcon, taskContent) => {
+        return () => {
+            if (saveIcon.style.display === 'none') {
+                saveIcon.style.display = 'block';
+                editIcon.style.display = 'none';
+                taskContent.removeAttribute('readonly');
+                taskContent.focus();
+            } else {
+                editIcon.style.display = 'block';
+                saveIcon.style.display = 'none';
+
+                taskContent.setAttribute('readonly', 'readonly');
+
+                T.title = taskContent.value;  // Update the task's title
+                updateTask(T);  // Save the updated task to local storage
+
+                showMessage('task updated successfully!')
+            }
+        };
+    })(T, editIcon, saveIcon, taskContent)); // Pass the variables explicitly
+
     radioBtn.addEventListener('click', () => {
         T.completed = !T.completed; // Toggle completion status
         if (T.completed) {
@@ -137,6 +142,7 @@ const deleteTask = (Tid) => {
     tasks = tasks.filter(task => task.id !== Tid);
     storeTasks(tasks);
     showTasks();
+    showMessage('task deleted successfully!')
 }
 
 
@@ -145,7 +151,8 @@ const deleteTask = (Tid) => {
 //response to add task button click
 addTaskBtn.addEventListener('click', (e) =>{
     if (inputTask.value.length > 0) {
-        processTask({ id: Math.random(), title: inputTask.value ,completed: false});
+        processTask({ id: Math.random(), title: inputTask.value, completed: false });
+        showMessage('task added successfully!')
     } else {
         alert('please enter a task to be added!');
     }
@@ -154,15 +161,6 @@ addTaskBtn.addEventListener('click', (e) =>{
     sessionStorage.removeItem('Task.input');
 })
 
-
-
-//edit specific task
-const editTask = (taskId) => {
-    // let tasks = returnTasks();
-    // tasks = tasks.filter(task => task.id !== taskId);
-    // storeTasks(tasks);
-    // showTasks();
-}
 
 
 
@@ -188,10 +186,25 @@ const showTasks = () => {
 
 
 const showMessage = (msg) => {
-    
+    let message = document.createElement('div');
+    messageContent = document.createElement('p');
+    message.className = 'msg';
+    message.appendChild(messageContent);
+    messageContent.appendChild(document.createTextNode(msg));
+    document.body.appendChild(message);
+    setTimeout(() => {
+        document.body.removeChild(message);
+    }, 4000);
+    setTimeout(() => {
+        message.classList.add('active');
+    }, 10);  
+    setTimeout(() => {
+        message.classList.remove('active');  // Start fade-out
+        setTimeout(() => {
+            document.body.removeChild(message);  // Remove after fade-out completes
+        }, 1000);  // Delay matches the fade-out duration in CSS
+    }, 4000);  
 }
 
 
 showTasks();
-
-console.log(returnTasks());

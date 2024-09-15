@@ -98,9 +98,14 @@ input[type='text']{
 }
 
 .msg{
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     right: 10px;
+    background-color: lightgreen;
+    padding: 10px;
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 5px;
+    z-index: 1000;      
     border-radius: 5px;
     background-color: rgb(33, 179, 82);
     color: white;
@@ -109,9 +114,27 @@ input[type='text']{
     display: flex;
     justify-content: center;
     align-items: center;
-    /* text-decoration: line-through; */
+    opacity: 0;  
+    transform: translateY(20px); 
+    transition: opacity 1s ease, transform 1s ease;
 }
-
+.msg.active {
+    opacity: 1;  
+    transform: translateY(0);  
+}
 .edit-radio{
     margin-right: 10px;
+}
+.editBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+i{
+    transition: 0.4s;
+}
+i:active{
+    transform: scale(0.80);
 }
