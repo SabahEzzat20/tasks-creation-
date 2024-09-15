@@ -35,24 +35,23 @@ h2{
     height: 40px;
     border-radius: 30px;
     display: flex;
-    gap: 20px;
     justify-content: space-between;
 }
 input[type='text']{
-    background-color: transparent;
     border: none;
     border-radius: 5px;
     outline: none;
-    width: 65%;
+    width: 60%;
     color: rgb(63, 63, 63);
     font-size: 15px;
 }
 .input{
+    background-color: transparent;
     margin:  0 15px  ;
 }
 .taskContent{
     padding: 7px;
-
+    width: 80%;
 }
 .add{
     border: none;
@@ -83,6 +82,7 @@ input[type='text']{
     min-height: 50px;
     margin-bottom: 10px;
     transition: transform 0.5s ease;
+    
 }
 
 .actions{
@@ -111,12 +111,6 @@ input[type='text']{
 }
 .taskName{
     margin: 5px;
-    white-space: wrap;
-    width: 80%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    font-size: 25px;
 }
 
 .msg{
